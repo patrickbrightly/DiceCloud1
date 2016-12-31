@@ -110,7 +110,15 @@ Template.journal.events({
 			}
 		});
 	},
-	"tap #addClassButton":function(event){
+	"tap #addExistingClass": function(event, template) {
+		var charId = this._id;
+		GlobalUI.showDialog({
+			heading: "Add Class",
+			template: "addClassDialog",
+			data: {charId: charId},
+		});
+	},
+	"tap #createNewClass": function(event){
 		var charId = this._id;
 		Classes.insert({
 			charId: charId,

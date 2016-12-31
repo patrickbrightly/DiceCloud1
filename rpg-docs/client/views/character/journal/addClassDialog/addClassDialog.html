@@ -1,0 +1,17 @@
+<template name="addClassDialog">
+	<style>
+		#addClassMenu .addClassMenuOption {
+			display: block;
+			padding: 6px;
+		}
+	</style>
+	<paper-radio-group id="addClassMenu" selected="0">
+		{{#each cls in classList}}
+			<paper-radio-button name={{@index}} label={{cls}} class="addClassMenuOption">
+			</paper-radio-button>
+		{{/each}}
+	</paper-radio-group>
+
+	<paper-button id="cancelButton" dismissive>Cancel</paper-button>
+	<paper-button id="addButton" affirmative>Add</paper-button>
+</template>

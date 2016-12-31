@@ -54,11 +54,33 @@
 								</div>
 							{{/if}}
 						</div>
-						<paper-icon-button class="black54"
-										   id="addClassButton"
-										   icon="add"
-										   disabled={{#unless canEditCharacter _id}}true{{/unless}}>
-						</paper-icon-button>
+
+
+
+
+
+						<paper-menu-button>
+							<paper-icon-button class="black54"
+											   id="addClassButton"
+											   icon="add"
+											   disabled={{#unless canEditCharacter _id}}true{{/unless}}>
+							</paper-icon-button>
+							<paper-dropdown class="dropdown" halign="right">
+								<core-menu class="menu" style="color: black; color: rgba(0,0,0,0.87);">
+									<paper-item id="addExistingClass">
+										Add Class
+									</paper-item>
+									<paper-item id="createNewClass">
+										Create New...
+									</paper-item>
+								</core-menu>
+							</paper-dropdown>
+						</paper-menu-button>
+
+
+
+
+
 					</div>
 					<div class="bottom list">
 						<div class="item-slot">
