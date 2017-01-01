@@ -22,11 +22,12 @@ SRD_Class.prototype = {
   // End optional abstract functions
   //----------------------------------
 
-  insertAllEffectsAndProficiencies: function insertAllEffectsAndProficiencies() {
+  insertClassFeatures: function insertClassFeatures() {
     this.insertEffectHitPoints();
     this.insertEffectHitDice();
     this.insertEffectSpellSlots();
     this.insertProficiencies();
+    this.insertNotes();
   },
 
   // "d6": 4,
@@ -103,6 +104,19 @@ SRD_Class.prototype = {
     proficiency.charId = proficiency.charId || this.charId;
     proficiency.parent = proficiency.parent || this.getClassParent();
     Proficiencies.insert(proficiency);
+  },
+
+  insertNotes: function insertNotes() {
+    const notes = this.getNotes();
+    _.each(notes, function(value) {
+      this.insertNote(value);
+    }, this);
+  },
+
+  insertNote: function insertNote(note) {
+    note.charId = note.charId || this.charId;
+    note.parent = note.parent || this.getClassParent();
+    Notes.insert(note);
   },
 
   getClassLevelString: function getClassLevelString() {

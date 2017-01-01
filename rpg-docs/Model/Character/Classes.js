@@ -57,6 +57,6 @@ Classes.after.insert(function(userId, cls) {
 	}
 
 	if (srdClass) {
-		srdClass.insertAllEffectsAndProficiencies();
+		srdClass.insertClassFeatures();
 	}
 });
