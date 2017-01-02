@@ -12,7 +12,7 @@ SRD_Class.prototype = {
   //----------------------------------
   // Begin optional abstract functions
   //----------------------------------
-  getSpellSlotMap: function getSpellSlotMap() {
+  getPerLevelEffects: function getPerLevelEffects() {
     return {};
   },
   insertCustomEffects: function insertCustomEffects() {
@@ -25,7 +25,7 @@ SRD_Class.prototype = {
   insertClassFeatures: function insertClassFeatures() {
     this.insertEffectHitPoints();
     this.insertEffectHitDice();
-    this.insertEffectSpellSlots();
+    this.insertPerLevelEffects();
     this.insertProficiencies();
     this.insertNotes();
   },
@@ -62,14 +62,14 @@ SRD_Class.prototype = {
     });
   },
 
-  insertEffectSpellSlots: function insertEffectSpellSlots() {
-    const spellSlotMap = this.getSpellSlotMap();
+  insertPerLevelEffects: function insertPerLevelEffects() {
+    const spellSlotMap = this.getPerLevelEffects();
     _.each(spellSlotMap, function(value, key) {
-      this.insertEffectSpellSlot(key, value);
+      this.insertPerLevelEffect(key, value);
     }, this);
   },
 
-  insertEffectSpellSlot: function insertEffectSpellSlot(statName, spellSlotArrayStr) {
+  insertPerLevelEffect: function insertPerLevelEffect(statName, spellSlotArrayStr) {
     const levelString = this.getClassLevelString();
     const calculation =
       "subset(" + spellSlotArrayStr + ", index(" + levelString + "-1))";
@@ -125,6 +125,28 @@ SRD_Class.prototype = {
 
   getClassParent: function getClassParent() {
     return { id: this.classId, collection: "Classes" };
+  },
+
+  // TODO: Make UI for selecting skill proficiencies and delete this function
+  getSkillProficienciesNote: function getSkillProficienciesNote(numProficiencies, skillList) {
+    var className = this.getClassName();
+    var skillNames = _.map(skillList, function(skill) { return skill.name; });
+    var skillListStr = "* " + skillNames.join("\n* ") + "\n\n";
+    return {
+      "name" : "Action Item: Choose " + numProficiencies + " Skill Proficiencies",
+      "color" : "a", // Red
+      "description" : (
+        "As a " + className + ", you gain " + numProficiencies + " skill proficiencies.\n\n" +
+        "Choose **" + numProficiencies + "** from:\n\n" +
+        skillListStr +
+        "To set these proficiencies on your character:\n" +
+        "1. Click the \"" + className + "\" class on your character, then click the \"Edit\" button in the upper right of the dialog.\n" +
+        "2. Scroll to the bottom of the dialog and click \"Add Proficiency.\" A new row will be created.\n" +
+        "3. Choose \"Skill\" in the first dropdown of the new row, and in the second dropdown, make your choice from the skills listed above.\n" +
+        "4. Repeat the previous two steps for each additional skill proficiency.\n\n" +
+        "*Delete this note once you complete this action item.*"
+      ),
+    };
   }
 }
 

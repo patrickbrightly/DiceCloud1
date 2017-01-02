@@ -259,7 +259,7 @@ CONDITIONS = {
 		},
 		effects: (function() {
 			return _.map(SKILLS, function(skill) {
-				return {stat: skill, operation: "disadvantage", value: 1};
+				return {stat: skill.stat, operation: "disadvantage", value: 1};
 			});
 		})(),
 	},
@@ -328,7 +328,7 @@ CONDITIONS = {
 		},
 		effects: (function() {
 			return _.map(SKILLS, function(skill) {
-				return {stat: skill, operation: "disadvantage", value: 1};
+				return {stat: skill.stat, operation: "disadvantage", value: 1};
 			});
 		})(),
 	},

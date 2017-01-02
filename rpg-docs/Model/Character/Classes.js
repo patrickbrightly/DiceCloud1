@@ -45,18 +45,26 @@ Classes.after.insert(function(userId, cls) {
 	const charId = cls.charId;
 	const className = cls.name;
 
-	var srdClass = null;
+	var srd = null;
 
 	// TODO: Add the rest of the SRD classes!
 	switch (className) {
-		case "Cleric":
-			srdClass = new SRD_Cleric(charId, classId);
-			break;
-		default:
-			break;
+		case "Barbarian": { srd = new SRD_Barbarian(charId, classId); break; }
+		case "Bard":      { srd = new SRD_Bard(charId, classId);      break; }
+		case "Cleric":    { srd = new SRD_Cleric(charId, classId);    break; }
+		case "Druid":     { srd = new SRD_Druid(charId, classId);     break; }
+		case "Fighter":   { srd = new SRD_Fighter(charId, classId);   break; }
+		case "Monk":      { srd = new SRD_Monk(charId, classId);      break; }
+		case "Paladin":   { srd = new SRD_Paladin(charId, classId);   break; }
+		case "Ranger":    { srd = new SRD_Ranger(charId, classId);    break; }
+		case "Rogue":     { srd = new SRD_Rogue(charId, classId);     break; }
+		case "Sorcerer":  { srd = new SRD_Sorcerer(charId, classId);  break; }
+		case "Warlock":   { srd = new SRD_Warlock(charId, classId);   break; }
+		case "Wizard":    { srd = new SRD_Wizard(charId, classId);    break; }
+		default: break;
 	}
 
-	if (srdClass) {
-		srdClass.insertClassFeatures();
+	if (srd) {
+		srd.insertClassFeatures();
 	}
 });
