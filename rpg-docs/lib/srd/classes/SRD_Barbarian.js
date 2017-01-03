@@ -31,6 +31,7 @@ SRD_Barbarian.prototype.getProficiencies = function getProficiencies() {
 SRD_Barbarian.prototype.getFeatures = function getFeatures() {
   return [
     this.getRageFeature(),
+    this.getUnarmoredDefenseFeature(),
   ];
 }
 
@@ -75,6 +76,29 @@ SRD_Barbarian.prototype.getRageFeature = function getRageFeature() {
       },
       { stat: "strengthSave",
         operation: "advantage",
+      },
+    ],
+  };
+}
+
+SRD_Barbarian.prototype.getUnarmoredDefenseFeature = function getUnarmoredDefenseFeature() {
+  return {
+    coreFeature: {
+      name: "Unarmored Defense",
+      enabled: true,
+      alwaysEnabled: false,
+      description:
+        "While you are not wearing any armor, your Armor Class equals **{10+dexterityMod+constitutionMod}**." +
+        " You can use a shield and still gain this benefit."
+    },
+    effects: [
+      { stat: "armor",
+        operation: "base",
+        calculation: "10 + constitutionMod",
+      },
+      { stat: "dexterityArmor",
+        operation: "base",
+        calculation: "dexterityMod",
       },
     ],
   };
