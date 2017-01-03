@@ -1,3 +1,9 @@
+/**
+ * Implementation of the Barbarian class, according to SRD v5.1.
+ * TODO: Add starting equipment
+ * TODO: Add features above Level 1
+ */
+
 function SRD_Barbarian(charId, classId) {
   this.charId = charId;
   this.classId = classId;
@@ -36,6 +42,10 @@ SRD_Barbarian.prototype.getFeatures = function getFeatures() {
 }
 
 SRD_Barbarian.prototype.getRageFeature = function getRageFeature() {
+  var rageDamageBonusStr = this.getPerLevelCalculationString(
+    "[2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,4,4,4,4,4]"
+  );
+
   return {
     coreFeature: {
       name : "Rage",
@@ -46,8 +56,7 @@ SRD_Barbarian.prototype.getRageFeature = function getRageFeature() {
         "While raging, you gain the following benefits if you aren't wearing heavy armor:\n\n" +
         "* You have advantage on Strength checks and Strength saving throws.\n" +
         "* When you make a melee weapon attack using Strength, you gain a " +
-        "**{BarbarianLevel >= 16 ? \"+4\" : BarbarianLevel >= 9 ? \"+3\" : \"+2\"}**" +
-        " bonus to the damage roll.\n" +
+        "**+{" + rageDamageBonusStr + "}** bonus to the damage roll.\n" +
         "* You have resistance to bludgeoning, piercing, and slashing damage.\n\n" +
         "If you are able to cast spells, you can't cast them or concentrate on them while raging.\n\n" +
         "Your rage lasts for 1 minute. It ends early if you are knocked unconscious or if your turn ends" +
@@ -60,7 +69,7 @@ SRD_Barbarian.prototype.getRageFeature = function getRageFeature() {
     effects: [
       { stat: "rageDamage",
         operation: "base",
-        calculation: "BarbarianLevel >= 16 ? 4 : BarbarianLevel >= 9 ? 3 : 2",
+        calculation: rageDamageBonusStr,
       },
       { stat: "bludgeoningMultiplier",
         operation: "mul",

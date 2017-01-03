@@ -15,7 +15,7 @@ SRD_Class.prototype = {
   getPerLevelEffects: function getPerLevelEffects() {
     return {};
   },
-  insertCustomEffects: function insertCustomEffects() {
+  getSpellListData: function getSpellListData() {
     return {};
   },
   //----------------------------------
@@ -28,6 +28,7 @@ SRD_Class.prototype = {
     this.insertPerLevelEffects();
     this.insertProficiencies();
     this.insertFeatures();
+    this.insertSpellList();
     this.insertNotes();
   },
 
@@ -63,19 +64,18 @@ SRD_Class.prototype = {
   insertPerLevelEffects: function insertPerLevelEffects() {
     const perLevelEffects = this.getPerLevelEffects();
     _.each(perLevelEffects, function(value, key) {
-      this.insertPerLevelEffect(key, value);
+      const calculation = this.getPerLevelCalculationString(value);
+      return this.insertClassEffect({
+        stat: key,
+        operation: "base",
+        calculation: calculation,
+      });
     }, this);
   },
 
-  insertPerLevelEffect: function insertPerLevelEffect(statName, perLevelEffect) {
-    const levelString = this.getClassLevelString();
-    const calculation =
-      "subset(" + perLevelEffect + ", index(" + levelString + "-1))";
-    return this.insertClassEffect({
-      stat: statName,
-      operation: "base",
-      calculation: calculation,
-    });
+  getPerLevelCalculationString: function getPerLevelCalculationString(perLevelEffect) {
+    var levelString = this.getClassLevelString();
+    return "subset(" + perLevelEffect + ", index(" + levelString + "-1))";
   },
 
   insertClassEffect: function insertClassEffect(effect) {
@@ -129,6 +129,22 @@ SRD_Class.prototype = {
     effect.charId = effect.charId || this.charId;
     effect.parent = effect.parent || this.getFeatureParent(featureId);
     return Effects.insert(effect);
+  },
+
+  insertSpellList: function insertSpellList() {
+    const spellListData = this.getSpellListData();
+    if (!spellListData) {
+      return;
+    }
+
+    const spellMod = spellListData.spellcastingAbilityMod;
+    SpellLists.insert({
+      name: (this.getClassName() + " Spells"),
+      saveDC: ("8 + " + spellMod + " + proficiencyBonus"),
+      attackBonus: (spellMod + " + proficiencyBonus"),
+      description: spellListData.description,
+      charId: this.charId,
+    });
   },
 
   insertNotes: function insertNotes() {
