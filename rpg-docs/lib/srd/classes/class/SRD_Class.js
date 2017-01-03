@@ -27,13 +27,11 @@ SRD_Class.prototype = {
     this.insertEffectHitDice();
     this.insertPerLevelEffects();
     this.insertProficiencies();
+    this.insertFeatures();
     this.insertNotes();
   },
 
-  // "d6": 4,
-  // "d8": 5,
-  // "d10": 6,
-  // "d12": 7,
+  // "d6": [4,2], "d8": [5,3], "d10": [6,4], "d12": [7,5]
   insertEffectHitPoints: function insertEffectHitPoints() {
     const hitDie = this.getHitDieInt();
     const mult = (hitDie / 2) + 1;
@@ -63,16 +61,16 @@ SRD_Class.prototype = {
   },
 
   insertPerLevelEffects: function insertPerLevelEffects() {
-    const spellSlotMap = this.getPerLevelEffects();
-    _.each(spellSlotMap, function(value, key) {
+    const perLevelEffects = this.getPerLevelEffects();
+    _.each(perLevelEffects, function(value, key) {
       this.insertPerLevelEffect(key, value);
     }, this);
   },
 
-  insertPerLevelEffect: function insertPerLevelEffect(statName, spellSlotArrayStr) {
+  insertPerLevelEffect: function insertPerLevelEffect(statName, perLevelEffect) {
     const levelString = this.getClassLevelString();
     const calculation =
-      "subset(" + spellSlotArrayStr + ", index(" + levelString + "-1))";
+      "subset(" + perLevelEffect + ", index(" + levelString + "-1))";
     return this.insertClassEffect({
       stat: statName,
       operation: "base",
@@ -106,6 +104,33 @@ SRD_Class.prototype = {
     Proficiencies.insert(proficiency);
   },
 
+  insertFeatures: function insertFeatures() {
+    const features = this.getFeatures();
+    _.each(features, function(feature) {
+      var coreFeature = feature.coreFeature;
+      var featureId = this.insertFeature(coreFeature);
+
+      var effects = feature.effects;
+      _.each(effects, function(effect) {
+        this.insertFeatureEffect(effect, featureId, coreFeature);
+      }, this);
+    }, this);
+  },
+
+  insertFeature: function insertFeature(feature) {
+    feature.charId = feature.charId || this.charId;
+    feature.parent = feature.parent || this.getClassParent();
+    return Features.insert(feature);
+  },
+
+  insertFeatureEffect: function insertFeatureEffect(effect, featureId, coreFeature) {
+    effect.name = effect.name || coreFeature.name;
+    effect.enabled = effect.enabled || coreFeature.enabled;
+    effect.charId = effect.charId || this.charId;
+    effect.parent = effect.parent || this.getFeatureParent(featureId);
+    return Effects.insert(effect);
+  },
+
   insertNotes: function insertNotes() {
     const notes = this.getNotes();
     _.each(notes, function(value) {
@@ -125,6 +150,10 @@ SRD_Class.prototype = {
 
   getClassParent: function getClassParent() {
     return { id: this.classId, collection: "Classes" };
+  },
+
+  getFeatureParent: function getFeatureParent(featureId) {
+    return { id: featureId, collection: "Features" };
   },
 
   // TODO: Make UI for selecting skill proficiencies and delete this function
