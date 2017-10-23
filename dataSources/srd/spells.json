@@ -1382,6 +1382,21 @@
 			"material": "a handful of sand, a dab of ink, and a writing quill plucked from a sleeping bird"
 		}
 	},
+		{
+		"castingTime": "action",
+		"description": "Whispering to the spirits of nature, you create one of the following effects within range:\n\n•You create a tiny, harmless sensory effect that predicts what the weather will be at your location for the next 24 hours. The effect might manifest as a golden orb for c1ear skies, a c1oud for rain, falling snowflakes for snow, and so on. This effect persists for 1 round. \n\n•You instantly make a flower blossom, a seed pod open, or a leaf bud bloom.\n\n•You create an instantaneous, harmless sensory effect, such as falling leaves, a puff of wind, the sound of a small animal, or the faint odor of skunk. The effect must fit in a 5-foot cube.\n\n•You instantly light or snuff out a candle, a torch, or a small campfire.",
+		"duration": "Instantaneous",
+		"level": 0,
+		"range": "30 feet",
+		"school": "Transmutation",
+		"ritual": false,
+		"name": "Druidcraft",
+		"components": {
+			"verbal": true,
+			"somatic": true,
+			"concentration": false
+		}
+	},
 	{
 		"castingTime": "action",
 		"description": "You create a seismic disturbance at a point on the ground that you can see within range. For the duration, an intense tremor rips through the ground in a 100-foot-radius circle centered on that point and shakes creatures and structures in contact with the ground in that area.\n\nThe ground in the area becomes difficult terrain. Each creature on the ground that is concentrating must make a DC {DC} Constitution saving throw. On a failed save, the creature’s concentration is broken.\n\nWhen you cast this spell and at the end of each turn you spend concentrating on it, each creature on the ground in the area must make a DC {DC} Dexterity saving throw. On a failed save, the creature is knocked prone.\n\nThis spell can have additional effects depending on the terrain in the area, as determined by the DM.\n\nFissures. Fissures open throughout the spell’s area at the start of your next turn after you cast the spell. A total of 1d6 such fissures open in locations chosen by the DM. Each is 1d10 × 10 feet deep, 10 feet wide, and extends from one edge of the spell’s area to the opposite side. A creature standing on a spot where a fissure opens must succeed on a DC {DC} Dexterity saving throw or fall in. A creature that successfully saves moves with the fissure’s edge as it opens.\n\nA fissure that opens beneath a structure causes it to automatically collapse (see below). \n\nStructures. The tremor deals 50 bludgeoning damage to any structure in contact with the ground in the area when you cast the spell and at the start of each of your turns until the spell ends. If a structure drops to 0 hit points, it collapses and potentially damages nearby creatures. A creature within half the distance of a structure’s height must make a DC {DC} Dexterity saving throw. On a failed save, the creature takes 5d6 bludgeoning damage, is knocked prone, and is buried in the rubble, requiring a DC 20 Strength (Athletics) check as an action to escape. The DM can adjust the DC higher or lower, depending on the nature of the rubble. On a successful save, the creature takes half as much damage and doesn’t fall prone or become buried.",
